@@ -1,12 +1,26 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view v-if="!loading"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-
+  data(){
+    return {
+      loading: true
+    }
+  },
+  async mounted(){
+    const path = this.$router.history.current.path;
+    if(path !== '/login' && path !== '/register'){
+      await this.$store.dispatch('userInfo');
+      
+      //garding current page
+      
+    }
+    this.loading = false;
+  }
 }
 </script>
 

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\Facades\JWTAuth as JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\JWTGuard;
 
 class AuthController extends Controller
 {
@@ -37,18 +38,20 @@ class AuthController extends Controller
                 'email',
                 function ($attribute, $value, $fail) {
                     if (User::whereEmail($value)->count() > 0) {
-                        $fail($attribute . ' is already used.');
+                        $fail($attribute . ' уже используется.');
                     }
-                },
+                }
             ],
             'password' => 'required'
+        ], [
+            'email.email' => 'неверный адрес электронной почты',
         ]);
 
         $errors = $validation->errors()->all();
 
         if (count($errors) > 0) {
             return response()->json([
-                'msg' => $errors[0]
+                'error' => $errors[0]
             ], 400);
         }
 
@@ -56,15 +59,18 @@ class AuthController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        User::create([
+        $id  = User::create([
             'name'  => $name,
             'email' => $email,
             'password' => $password,
             'role'  => 'client'
-        ]);
+        ])->id;
+        
+        $token = auth('api')->tokenById($id);
 
         return response()->json([
-            'msg' => 'Created successfully'
+            'msg' => 'Created successfully',
+            'token' => $token
         ]);
     }
 

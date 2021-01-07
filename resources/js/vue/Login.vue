@@ -73,20 +73,30 @@ export default {
       }
     };
   },
+  mounted(){
+    const user = this.$store.state.user;
+    if(user){
+      this.$router.push('/')
+    }
+  },
   methods: {
     async login() {
       let valid = await this.$refs.form.validate();
       if (!valid) {
         return;
       }
-      
+
       this.loading = true;
       await this.$store
         .dispatch("login", { email: this.model.email, password: this.model.password })
-        .then(() => this.$router.push("/"))
+        .then(res => {
+          this.loading = false;
+          this.$store.dispatch('userInfo').then(res => {
+            this.$router.push("/")
+          })
+        })
         .catch(err => console.log(err));
-      await this.$store.dispatch('userInfo');
-      this.loading = false;
+
     }
   }
 }

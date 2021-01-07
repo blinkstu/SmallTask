@@ -11,18 +11,13 @@
           @submit.native.prevent="register"
         >
           <el-form-item prop="name" label="Имя">
-            <el-input v-model="model.username"></el-input>
+            <el-input v-model="model.name"></el-input>
           </el-form-item>
           <el-form-item prop="email" label="E-mail адрес">
-            <el-input
-              v-model="model.username"
-            ></el-input>
+            <el-input v-model="model.email"></el-input>
           </el-form-item>
           <el-form-item prop="password" label="пароль">
-            <el-input
-              v-model="model.password"
-              type="password"
-            ></el-input>
+            <el-input v-model="model.password" type="password"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -49,13 +44,10 @@ export default {
   name: "register",
   data() {
     return {
-      validCredentials: {
-        username: "lightscope",
-        password: "lightscope"
-      },
       model: {
-        username: "",
-        password: ""
+        name: "asd",
+        email: "gg@gg.com",
+        password: "password"
       },
       loading: false,
       rules: {
@@ -71,7 +63,7 @@ export default {
             required: true,
             message: "Введите ваш e-mail адрес",
             trigger: "blur"
-          },
+          }
         ],
         password: [
           { required: true, message: "Введите пароль", trigger: "blur" },
@@ -84,6 +76,29 @@ export default {
       }
     };
   },
+  mounted() {
+    const user = this.$store.state.user;
+    if (user) {
+      this.$router.push('/')
+    }
+  },
+  methods: {
+    async register() {
+      let valid = await this.$refs.form.validate();
+      if (!valid) {
+        return;
+      }
+
+      this.loading = true;
+      await this.$store.dispatch('register', { email: this.model.email, password: this.model.password, name: this.model.name })
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch(err => console.log(err));
+      this.loading = false;
+
+    }
+  }
 }
 </script>
 

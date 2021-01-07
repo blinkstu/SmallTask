@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
-import app from './app';
+import axios from './axios';
 
 Vue.use(Vuex)
 
@@ -27,7 +26,7 @@ export default new Vuex.Store({
   actions: {
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
-        app.axios.post('/auth/login', user).then(resp => {
+        axios.post('/auth/login', user).then(resp => {
           const token = resp.data.token
           localStorage.setItem('token', token)
           commit('auth_success', token)
@@ -41,7 +40,7 @@ export default new Vuex.Store({
     },
     register({ commit }, user) {
       return new Promise((resolve, reject) => {
-        app.axios.post('/auth/login', user)
+        axios.post('/auth/register', user)
           .then(resp => {
             const token = resp.data.token
             const user = resp.data.user
@@ -57,7 +56,7 @@ export default new Vuex.Store({
     },
     userInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        app.axios.get('/auth/me')
+        axios.get('/auth/me')
           .then(resp => {
             const user = resp.data;
             commit('save_user_info', user)

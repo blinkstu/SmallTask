@@ -6,24 +6,10 @@ import { message } from 'ant-design-vue';
 import Axios from 'axios';
 import router from './router';
 import store from './store';
+import axios from './axios';
 
 Vue.use(ElementUI);
 Vue.use(message);
-
-//Axios service
-const axios = Axios.create({
-  baseURL: '/api',
-  timeout: 1000,
-  headers: { 'X-Custom-Header': 'foobar' }
-});;
-
-axios.interceptors.request.use(
-  config => {
-    config.headers.authorization = 'Bearer ' + localStorage.getItem("token");
-    return config;
-  },
-  error => Promise.reject(error)
-);
 
 //handle Http errors
 axios.interceptors.response.use(function (response) {
