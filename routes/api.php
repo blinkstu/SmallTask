@@ -24,6 +24,6 @@ Route::group([
     Route::post('register', 'AuthController@register');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::get('me', 'UserController@me')->middleware(['auth']);
+    Route::get('me', 'UserController@me');
 
 });

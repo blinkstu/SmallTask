@@ -6,8 +6,19 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function me(Request $request){
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('jwt_auth');
+    }
+
+    public function me(Request $request)
+    {   
         return response()->json([
             'name'  => $request->user->name,
             'email' => $request->user->email,
