@@ -31,6 +31,7 @@
     "dependencies": {
         "@deveodk/vue-toastr": "^1.1.0",
         "element-ui": "^2.14.1",
+        "moment": "^2.29.1",
         "vue-toastr": "^2.1.2"
     }
 }

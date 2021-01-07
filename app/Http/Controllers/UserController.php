@@ -17,8 +17,8 @@ class UserController extends Controller
         $this->middleware('jwt_auth');
     }
 
-    public function me(Request $request)
-    {   
+    public function show(Request $request)
+    {
         return response()->json([
             'name'  => $request->user->name,
             'email' => $request->user->email,

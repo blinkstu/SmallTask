@@ -6,7 +6,8 @@ import Dashboard from './page/Dashboard.vue';
 import Admin from './page/Admin.vue';
 import Client from './page/Client.vue';
 import NotFound from './page/NotFound.vue';
-import NewRequest from './component/NewRequest';
+import NewTicket from './component/NewTicket';
+import AddMessage from './component/AddMessage'
 import store from './store';
 
 Vue.use(VueRouter)
@@ -28,8 +29,12 @@ const routes = [
         component: Client
       },
       {
-        path: 'new_request',
-        component: NewRequest
+        path: '/tickets/new',
+        component: NewTicket
+      },
+      {
+        path: '/tickets/:id/add_message',
+        component: AddMessage
       }
     ]
   },

@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $token = auth('api')->tokenById(auth()->user()->id);
+        //$token = auth('api')->tokenById(auth()->user()->id);
         
         return view('home');
     }

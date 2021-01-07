@@ -25,6 +25,8 @@
       <router-view></router-view>
     </main>
 
+
+    <div class="pleaseholder" style="width:100%;height: 200px;"></div>
     <footer class="footer">
       <div class="container">
         <span class="text-muted">контакт: arysmukiyat@hotmail.com</span>
