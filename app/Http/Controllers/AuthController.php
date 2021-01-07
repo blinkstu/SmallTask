@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth as JWTAuth;
 
 class AuthController extends Controller
@@ -19,6 +21,51 @@ class AuthController extends Controller
         }
 
         return response()->json(['token' => $token]);
+    }
+
+    /**
+     * Register
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $validation = Validator::make(request()->all(), [
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                function ($attribute, $value, $fail) {
+                    if (User::whereEmail($value)->count() > 0) {
+                        $fail($attribute . ' is already used.');
+                    }
+                },
+            ],
+            'password' => 'required'
+        ]);
+
+        $errors = $validation->errors()->all();
+
+        if (count($errors) > 0) {
+            return response()->json([
+                'msg' => $errors[0]
+            ], 400);
+        }
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        User::create([
+            'name'  => $name,
+            'email' => $email,
+            'password' => $password,
+            'role'  => 'client'
+        ]);
+
+        return response()->json([
+            'msg' => 'Created successfully'
+        ]);
     }
 
     /**
