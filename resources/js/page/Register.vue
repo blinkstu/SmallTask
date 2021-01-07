@@ -92,7 +92,9 @@ export default {
       this.loading = true;
       await this.$store.dispatch('register', { email: this.model.email, password: this.model.password, name: this.model.name })
         .then(() => {
-          this.$router.push("/");
+          this.$store.dispatch('userInfo').then(res => {
+            this.$router.push("/")
+          })
         })
         .catch(err => console.log(err));
       this.loading = false;

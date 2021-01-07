@@ -72,7 +72,6 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('logout')
         localStorage.removeItem('token')
-        window.location.reload();
         resolve()
       })
     }

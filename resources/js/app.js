@@ -1,9 +1,7 @@
-import 'element-ui/lib/theme-chalk/index.css';
 import Vue from 'vue';
-import App from './vue/app.vue';
+import App from './page/app.vue';
 import ElementUI from 'element-ui';
 import { message } from 'ant-design-vue';
-import Axios from 'axios';
 import router from './router';
 import store from './store';
 import axios from './axios';

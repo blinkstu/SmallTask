@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       model: {
-        email: "admin@admin.com",
-        password: "password"
+        email: "test@gmail.com",
+        password: "admin"
       },
       loading: false,
       rules: {
@@ -73,9 +73,9 @@ export default {
       }
     };
   },
-  mounted(){
+  mounted() {
     const user = this.$store.state.user;
-    if(user){
+    if (user) {
       this.$router.push('/')
     }
   },
@@ -90,13 +90,12 @@ export default {
       await this.$store
         .dispatch("login", { email: this.model.email, password: this.model.password })
         .then(res => {
-          this.loading = false;
           this.$store.dispatch('userInfo').then(res => {
             this.$router.push("/")
           })
         })
         .catch(err => console.log(err));
-
+      this.loading = false;
     }
   }
 }
@@ -115,7 +114,6 @@ export default {
 .el-button--primary {
 }
 .login .el-input__prefix {
-  background: rgb(238, 237, 234);
   left: 0;
   height: calc(100% - 2px);
   left: 1px;

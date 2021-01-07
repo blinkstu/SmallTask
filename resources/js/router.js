@@ -1,10 +1,12 @@
-import VueRouter from 'vue-router'
-import Vue from 'vue'
-import Login from './vue/Login.vue';
-import Register from './vue/Register.vue';
-import Dashboard from './vue/Dashboard.vue';
-import Admin from './vue/Admin.vue';
-import Client from './vue/Client.vue';
+import VueRouter from 'vue-router';
+import Vue from 'vue';
+import Login from './page/Login.vue';
+import Register from './page/Register.vue';
+import Dashboard from './page/Dashboard.vue';
+import Admin from './page/Admin.vue';
+import Client from './page/Client.vue';
+import NotFound from './page/NotFound.vue';
+import NewRequest from './component/NewRequest';
 import store from './store';
 
 Vue.use(VueRouter)
@@ -14,11 +16,24 @@ const routes = [
   { path: '/register', component: Register },
   {
     path: '/',
-    component: Dashboard, 
+    component: Dashboard,
     meta: { requiresAuth: true },
     children: [
+      {
+        path: 'admin',
+        component: Admin
+      },
+      {
+        path: 'client',
+        component: Client
+      },
+      {
+        path: 'new_request',
+        component: NewRequest
+      }
     ]
-  }
+  },
+  { path: '*', component: NotFound }
 ]
 
 const router = new VueRouter({

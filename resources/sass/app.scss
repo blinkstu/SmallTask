@@ -6,3 +6,19 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+/* theme color */
+$--color-primary: #ea0000;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+a{
+  color: $--color-primary;
+}
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+button:focus{
+  outline: none;
+}
