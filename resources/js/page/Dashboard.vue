@@ -16,7 +16,7 @@
             <span v-if="role == 'client'" class="badge bg-default">клиент</span>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item >Выход</el-dropdown-item>
+            <el-dropdown-item>Выход</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -26,8 +26,7 @@
       <router-view></router-view>
     </main>
 
-
-    <div class="pleaseholder" style="width:100%;height: 200px;"></div>
+    <div class="pleaseholder" style="width: 100%; height: 200px"></div>
     <footer class="footer">
       <div class="container">
         <span class="text-muted">контакт: arysmukiyat@hotmail.com</span>
@@ -56,7 +55,6 @@ export default {
   },
   methods: {
     async logout() {
-      console.log('out');
       await this.$store.dispatch('logout');
       this.$router.push('/');
     }

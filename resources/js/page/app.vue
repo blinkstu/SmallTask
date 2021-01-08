@@ -17,9 +17,6 @@ export default {
       await this.$store.dispatch('userInfo').catch(err => {
         this.$router.push('/login');
       })
-      
-      //garding current page
-
     }
     this.loading = false;
   }

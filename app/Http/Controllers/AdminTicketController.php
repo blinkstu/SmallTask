@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AdminTicketController extends Controller
 {
@@ -44,6 +45,18 @@ class AdminTicketController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validation = Validator::make(request()->all(), [
+            'content' => 'required'
+        ]);
+
+        $errors = $validation->errors()->all();
+
+        if (count($errors) > 0) {
+            return response()->json([
+                'error' => $errors[0]
+            ], 400);
+        }
+
         $ticket = Ticket::find($id);
         $ticket->status = 1;
         $ticket->save();

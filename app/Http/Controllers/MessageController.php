@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -33,6 +34,18 @@ class MessageController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $validation = Validator::make(request()->all(), [
+            'content' => 'required'
+        ]);
+
+        $errors = $validation->errors()->all();
+
+        if (count($errors) > 0) {
+            return response()->json([
+                'error' => $errors[0]
+            ], 400);
+        }
+
         $ticket = Ticket::where('user_id', $request->user->id)->where('id', $id)->first();
         $ticket->status = 0;
         $ticket->save();

@@ -22,15 +22,18 @@ const routes = [
     children: [
       {
         path: 'admin',
-        component: Admin
+        component: Admin,
+        meta: { role: 'admin' },
       },
       {
         path: 'client',
-        component: Client
+        component: Client,
+        meta: { role: 'client' },
       },
       {
         path: '/tickets/new',
-        component: NewTicket
+        component: NewTicket,
+        meta: { role: 'client' },
       },
       {
         path: '/tickets/:id/add_message',
@@ -45,10 +48,21 @@ const router = new VueRouter({
   routes
 })
 
+
+//Protect frontend routes
 router.beforeEach((to, from, next) => {
-  console.log(store.state.user);
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
+      const user = store.state.user;
+      if (user && to.meta.role == 'admin' && user.role != 'admin') {
+        next('/client')
+      }
+
+      if (user && to.meta.role == 'client' && user.role != 'client') {
+        next('/admin')
+      }
+
       next()
       return
     }

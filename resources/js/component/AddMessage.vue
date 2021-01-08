@@ -94,7 +94,6 @@ export default {
     fetch() {
       this.$http.get(this.prefix + '/tickets/' + this.$route.params.id)
         .then(res => {
-          console.log(res);
           this.theme = res.data.theme;
           this.messages = res.data.messages.reverse();
         })
@@ -105,6 +104,8 @@ export default {
       this.loading = true;
       this.$http.post(this.prefix + '/tickets/' + this.$route.params.id + '/messages', this.form).then(res => {
         this.$message.success('Отправленный');
+        this.content = '';
+        this.file = '';
         this.fetch();
       }).catch(err => { }).finally(() => {
         this.loading = false;

@@ -6,6 +6,7 @@ use App\Message;
 use App\Ticket;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
 {
@@ -48,6 +49,18 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = Validator::make(request()->all(), [
+            'theme'   => 'required',
+            'content' => 'required'
+        ]);
+
+        $errors = $validation->errors()->all();
+
+        if (count($errors) > 0) {
+            return response()->json([
+                'error' => $errors[0]
+            ], 400);
+        }
 
         $ticket = new Ticket;
         $ticket->theme = $request->input('theme');
