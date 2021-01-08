@@ -15,7 +15,7 @@ class AdminTicketController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jwt_auth');
+        $this->middleware(['jwt_auth','admin_guard']);
     }
 
     /**
