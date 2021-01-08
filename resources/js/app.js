@@ -13,11 +13,13 @@ Vue.use(message);
 axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  if (error.response.status == 401) {
-    store.dispatch('logout');
-  }
-  if (error.response.data.error) {
-    Vue.prototype.$message.error(error.response.data.error);
+  if (error.response) {
+    if (error.response.status == 401) {
+      store.dispatch('logout');
+    }
+    if (error.response.data.error) {
+      Vue.prototype.$message.error(error.response.data.error);
+    }
   } else {
     Vue.prototype.$message.error(error.message);
   }

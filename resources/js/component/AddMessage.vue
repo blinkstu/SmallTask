@@ -19,7 +19,7 @@
                 <span class="message-data-name"
                   ><i class="fa fa-circle online"></i>{{ item.user.name }}</span
                 >
-                <span class="message-data-time">5:23 AM, Today</span>
+                <span class="message-data-time">formateTime(item.created_at)</span>
               </div>
               <div
                 class="message"
@@ -51,17 +51,20 @@
               placeholder="Текст сообщения"
             ></textarea>
           </div>
-          <div class="mb-3">
+          <div class="mb-3" style="max-width: 400px">
             <label for="">Прикрепить файл</label>
             <el-upload
-              class="upload-demo"
-              action="#"
-              :on-remove="onRemove"
-              :file-list="fileList"
+              action="/api/files"
               :limit="1"
-              :beforeUpload="beforeUpload"
+              :headers="headers"
+              :on-error="onError"
+              :on-remove="onRemove"
+              :on-success="onSuccess"
+              :on-exceed="onExceed"
             >
-              <el-button size="small">Прикрепить файл</el-button>
+              <el-button v-show="!disable" size="small"
+                >Прикрепить файл</el-button
+              >
             </el-upload>
           </div>
           <el-button :loading="loading" type="info" @click="request"
@@ -77,6 +80,7 @@
 <script>
 import moment from 'moment';
 moment.lang('ru');
+
 export default {
   data() {
     return {
@@ -85,8 +89,10 @@ export default {
       myId: null,
       loading: false,
       pageLoading: false,
+      disable: false,
       theme: '',
       messages: [],
+      headers: {},
       form: {
         content: '',
         file: null,
@@ -94,7 +100,11 @@ export default {
     }
   },
   mounted() {
-    this.myId = this.$store.state.user.id;
+    const token = localStorage.getItem('token');
+    this.headers = {
+      'Authorization': 'Bearer ' + token
+    },
+      this.myId = this.$store.state.user.id;
     this.pageLoading = true;
     if (this.$store.state.user.role == 'admin') {
       this.prefix = '/admin'
@@ -126,20 +136,18 @@ export default {
     formateTime(time) {
       return moment(time).fromNow()
     },
-    beforeUpload: function (file) {
-      var fd = new window.FormData();
-      console.log(file);
-      fd.append('file', file, file.name);
-      var that = this;
-      this.$http.post('/files', fd).then(function (res) {
-        that.fileList = [file];
-        that.form.file = res.data.id;
-      });
-      return false;
-    },
     onRemove: function () {
-      this.fileList = [];
       this.form.file = null;
+    },
+    onError: function (e) {
+      this.$message.error(e.message);
+    },
+    onSuccess: function (res) {
+      console.log(res);
+      this.form.file = res.id;
+    },
+    onExceed: function () {
+      this.$message.info('Только один файл может быть загружен')
     }
   }
 }
@@ -165,7 +173,7 @@ ul li {
 
 .file {
   margin: 0;
-  font-size: 1rem;
+  font-size: 12px;
   margin-bottom: -10px;
   a {
     color: #fff;

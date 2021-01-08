@@ -3,7 +3,7 @@ import Axios from 'axios';
 //Axios service
 const axios = Axios.create({
   baseURL: '/api',
-  timeout: 1000,
+  timeout: 20000,
   headers: { 'X-Custom-Header': 'foobar' }
 });;
 

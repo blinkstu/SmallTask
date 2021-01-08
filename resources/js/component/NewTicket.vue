@@ -24,17 +24,20 @@
             placeholder="Текст сообщения"
           ></textarea>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="max-width: 400px">
           <label for="">Прикрепить файл</label>
           <el-upload
-            class="upload-demo"
-            action="#"
-            :on-remove="onRemove"
-            :file-list="fileList"
+            action="/api/files"
             :limit="1"
-            :beforeUpload="beforeUpload"
+            :headers="headers"
+            :on-error="onError"
+            :on-remove="onRemove"
+            :on-success="onSuccess"
+            :on-exceed="onExceed"
           >
-            <el-button size="small">Прикрепить файл</el-button>
+            <el-button v-show="!disable" size="small"
+              >Прикрепить файл</el-button
+            >
           </el-upload>
         </div>
         <hr />
@@ -54,12 +57,19 @@ export default {
     return {
       loading: false,
       fileList: [],
+      headers: {},
       form: {
         theme: '',
         content: '',
         file: null
       }
     }
+  },
+  mounted() {
+    const token = localStorage.getItem('token');
+    this.headers = {
+      'Authorization': 'Bearer ' + token
+    };
   },
   methods: {
     request() {
@@ -71,20 +81,18 @@ export default {
         this.loading = false;
       })
     },
-        beforeUpload: function (file) {
-      var fd = new window.FormData();
-      console.log(file);
-      fd.append('file', file, file.name);
-      var that = this;
-      this.$http.post('/files', fd).then(function (res) {
-        that.fileList = [file];
-        that.form.file = res.data.id;
-      });
-      return false;
-    },
     onRemove: function () {
-      this.fileList = [];
       this.form.file = null;
+    },
+    onError: function (e) {
+      this.$message.error(e.message);
+    },
+    onSuccess: function (res) {
+      console.log(res);
+      this.form.file = res.id;
+    },
+    onExceed: function () {
+      this.$message.info('Только один файл может быть загружен')
     }
   }
 }
