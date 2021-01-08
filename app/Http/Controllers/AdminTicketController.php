@@ -64,6 +64,7 @@ class AdminTicketController extends Controller
         $message = new Message;
         $message->user_id = $request->user->id;
         $message->content = $request->input('content');
+        $message->file_id = $request->input('file');
 
         $ticket->messages()->save($message);
 

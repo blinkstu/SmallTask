@@ -36,3 +36,7 @@ Route::group(['prefix' => 'admin'], function($router){
     Route::get('tickets/{ticket}', 'AdminTicketController@show');
     Route::post('tickets/{ticket}/messages', 'AdminTicketController@update');
 });
+
+//files
+Route::get('files/{id}', 'FileController@show');
+Route::post('files', 'FileController@store');

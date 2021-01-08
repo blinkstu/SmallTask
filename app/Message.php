@@ -24,6 +24,14 @@ class Message extends Model
     }
 
     /**
+     * File
+     */
+    public function file()
+    {
+        return $this->belongsTo(Files::class);
+    }
+
+    /**
      * Get the user of the ticket
      */
     public function ticket()

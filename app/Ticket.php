@@ -20,7 +20,7 @@ class Ticket extends Model
      */
     public function messages()
     {
-        return $this->hasMany(Message::class)->with('user')->orderBy('id', 'desc');
+        return $this->hasMany(Message::class)->with(['file', 'user'])->orderBy('id', 'desc');
     }
 
     /**

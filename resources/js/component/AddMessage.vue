@@ -30,6 +30,11 @@
                 }"
               >
                 {{ item.content }}
+                <p class="file" v-if="item.file">
+                  <a :href="item.file.path" target="_blank">
+                    <i class="fas fa-file"></i>&nbsp; {{ item.file.name }}
+                  </a>
+                </p>
               </div>
             </li>
           </ul>
@@ -50,7 +55,11 @@
             <label for="">Прикрепить файл</label>
             <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="#"
+              :on-remove="onRemove"
+              :file-list="fileList"
+              :limit="1"
+              :beforeUpload="beforeUpload"
             >
               <el-button size="small">Прикрепить файл</el-button>
             </el-upload>
@@ -71,6 +80,7 @@ moment.lang('ru');
 export default {
   data() {
     return {
+      fileList: [],
       prefix: '',
       myId: null,
       loading: false,
@@ -78,7 +88,8 @@ export default {
       theme: '',
       messages: [],
       form: {
-        content: ''
+        content: '',
+        file: null,
       }
     }
   },
@@ -104,8 +115,9 @@ export default {
       this.loading = true;
       this.$http.post(this.prefix + '/tickets/' + this.$route.params.id + '/messages', this.form).then(res => {
         this.$message.success('Отправленный');
-        this.content = '';
-        this.file = '';
+        this.form.content = '';
+        this.form.file = '';
+        this.fileList = [];
         this.fetch();
       }).catch(err => { }).finally(() => {
         this.loading = false;
@@ -113,6 +125,21 @@ export default {
     },
     formateTime(time) {
       return moment(time).fromNow()
+    },
+    beforeUpload: function (file) {
+      var fd = new window.FormData();
+      console.log(file);
+      fd.append('file', file, file.name);
+      var that = this;
+      this.$http.post('/files', fd).then(function (res) {
+        that.fileList = [file];
+        that.form.file = res.data.id;
+      });
+      return false;
+    },
+    onRemove: function () {
+      this.fileList = [];
+      this.form.file = null;
     }
   }
 }
@@ -134,6 +161,15 @@ $gray: #92959e;
 
 ul li {
   list-style-type: none;
+}
+
+.file {
+  margin: 0;
+  font-size: 1rem;
+  margin-bottom: -10px;
+  a {
+    color: #fff;
+  }
 }
 
 .chat {
