@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Ticket;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -60,6 +61,13 @@ class TicketController extends Controller
             return response()->json([
                 'error' => $errors[0]
             ], 400);
+        }
+
+        $todays_tickets = Ticket::whereDate('created_at', Carbon::today())->where('user_id', $request->user->id)->count();
+        if ($todays_tickets >= 1) {
+            return response()->json([
+                'error' => 'Только одна заявка в день!'
+            ], 403);
         }
 
         $ticket = new Ticket;
