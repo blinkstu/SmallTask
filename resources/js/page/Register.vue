@@ -45,9 +45,9 @@ export default {
   data() {
     return {
       model: {
-        name: "asd",
-        email: "gg@gg.com",
-        password: "password"
+        name: "",
+        email: "",
+        password: ""
       },
       loading: false,
       rules: {

@@ -50,8 +50,8 @@ export default {
   data() {
     return {
       model: {
-        email: "test@gmail.com",
-        password: "admin"
+        email: "",
+        password: ""
       },
       loading: false,
       rules: {
