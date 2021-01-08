@@ -19,7 +19,7 @@
                 <span class="message-data-name"
                   ><i class="fa fa-circle online"></i>{{ item.user.name }}</span
                 >
-                <span class="message-data-time">formateTime(item.created_at)</span>
+                <span class="message-data-time">{{formateTime(item.created_at)}}</span>
               </div>
               <div
                 class="message"

@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function login()
     {
         if (!$token = auth('api')->attempt(request(['email', 'password']))) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Неправильный email или пароль.'], 401);
         }
 
         return response()->json(['token' => $token]);
