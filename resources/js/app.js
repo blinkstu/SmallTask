@@ -5,6 +5,11 @@ import { message } from 'ant-design-vue';
 import router from './router';
 import store from './store';
 import axios from './axios';
+import VueGtag from "vue-gtag";
+
+Vue.use(VueGtag, {
+  config: { id: "G-SL7ER3VQZT" },
+}, router);
 
 Vue.use(ElementUI);
 Vue.use(message);
