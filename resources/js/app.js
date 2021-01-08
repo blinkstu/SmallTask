@@ -8,7 +8,7 @@ import axios from './axios';
 import VueGtag from "vue-gtag";
 
 Vue.use(VueGtag, {
-  config: { id: "G-SL7ER3VQZT" },
+  config: { id: "UA-167885492-6" },
 }, router);
 
 Vue.use(ElementUI);
