@@ -20,6 +20,9 @@
               <el-tag v-if="scope.row.status == 0" type="info" size="mini"
                 >Находится на рассмотрении</el-tag
               >
+              <el-tag v-if="scope.row.status == 1" type="warning" size="mini"
+                >Ожидает вашего ответа</el-tag
+              >
             </template>
           </el-table-column>
           <el-table-column prop="name" label="Операция" width="100">

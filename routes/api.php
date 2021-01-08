@@ -32,7 +32,7 @@ Route::post('tickets/{ticket}/messages', 'MessageController@store'); //add a new
 //admin
 Route::group(['prefix' => 'admin'], function($router){
 
-    Route::get('tickets', 'TicketController@index');
-    Route::get('tickets/{ticket}/messages', 'MessageController@index');
-    Route::post('tickets/{ticket}/message', 'MessageController@store');
+    Route::get('tickets', 'AdminTicketController@index');
+    Route::get('tickets/{ticket}', 'AdminTicketController@show');
+    Route::post('tickets/{ticket}/messages', 'AdminTicketController@update');
 });

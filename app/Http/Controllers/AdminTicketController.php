@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\Ticket;
-use App\User;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class AdminTicketController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -20,12 +19,11 @@ class TicketController extends Controller
     }
 
     /**
-     * list user's requests
+     * list all requests
      */
     public function index(Request $request)
     {
-        $tickets = Ticket::with(['user', 'messages'])->where('user_id', $request->user->id)->orderBy('updated_at', 'desc')->get();
-
+        $tickets = Ticket::with(['user', 'messages'])->orderBy('updated_at', 'desc')->get();
         return response()->json($tickets);
     }
 
@@ -34,25 +32,20 @@ class TicketController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $ticket = Ticket::with(['user', 'messages'])->where('user_id', $request->user->id)->where('id', $id)->first();
-
+        $ticket = Ticket::with(['user', 'messages'])->where('id', $id)->first();
         if (!$ticket) {
             return response()->json(['error' => 'not found'], 404);
         }
-
         return response()->json($ticket);
     }
 
     /**
-     * Create new Ticket
+     * Reply to one Ticket
      */
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-
-        $ticket = new Ticket;
-        $ticket->theme = $request->input('theme');
-        $ticket->user_id = $request->user->id;
-        $ticket->status = 0;
+        $ticket = Ticket::find($id);
+        $ticket->status = 1;
         $ticket->save();
 
         $message = new Message;

@@ -71,6 +71,7 @@ moment.lang('ru');
 export default {
   data() {
     return {
+      prefix: '',
       myId: null,
       loading: false,
       pageLoading: false,
@@ -84,11 +85,14 @@ export default {
   mounted() {
     this.myId = this.$store.state.user.id;
     this.pageLoading = true;
+    if (this.$store.state.user.role == 'admin') {
+      this.prefix = '/admin'
+    }
     this.fetch();
   },
   methods: {
     fetch() {
-      this.$http.get('/tickets/' + this.$route.params.id)
+      this.$http.get(this.prefix + '/tickets/' + this.$route.params.id)
         .then(res => {
           console.log(res);
           this.theme = res.data.theme;
@@ -99,8 +103,8 @@ export default {
     },
     request() {
       this.loading = true;
-      this.$http.post('/tickets/' + this.$route.params.id + '/messages', this.form).then(res => {
-        this.$message.success('успешно созданный');
+      this.$http.post(this.prefix + '/tickets/' + this.$route.params.id + '/messages', this.form).then(res => {
+        this.$message.success('Отправленный');
         this.fetch();
       }).catch(err => { }).finally(() => {
         this.loading = false;

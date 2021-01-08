@@ -3,7 +3,8 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand">Личный Кабинет</a>
+        <a class="navbar-brand" v-if="role == 'admin'">Консоль</a>
+        <a class="navbar-brand" v-else>Личный Кабинет</a>
 
         <el-dropdown @command="logout">
           <span class="form-inline el-dropdown-link">

@@ -33,7 +33,9 @@ class MessageController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $ticket = Ticket::where('user_id', $request->user->id)->where('user_id', $request->user->id)->where('id', $id)->first();
+        $ticket = Ticket::where('user_id', $request->user->id)->where('id', $id)->first();
+        $ticket->status = 0;
+        $ticket->save();
 
         $message = new Message;
         $message->user_id = $request->user->id;
