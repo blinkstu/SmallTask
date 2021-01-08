@@ -4,9 +4,11 @@
 
 ## Установка
 
-> Минимальные требования — PHP 7.2+, mysql 5.6.
-> тестовое окружение: Ubuntu 16.04. 
-> изменять .env
+- Минимальные требования — PHP 7.2+, mysql 5.6.
+- тестовое окружение: Ubuntu 16.04. 
+- отредактируйте .env
+- username: admin
+- password: password
 
 ```bash
 sudo apt install php libapache2-mod-php php-mbstring php-xmlrpc php-soap php-gd php-xml php-cli php-zip php-bcmath php-tokenizer php-json php-pear php7.2-mysql
