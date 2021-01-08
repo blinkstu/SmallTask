@@ -48,9 +48,9 @@ export default {
 
     const user = this.$store.state.user;
     if (user.role == 'admin') {
-      this.$router.push('admin');
+      this.$router.push('/admin');
     } else {
-      this.$router.push('client');
+      this.$router.push('/client');
     }
   },
   methods: {

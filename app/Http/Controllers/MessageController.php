@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Ticket;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -32,5 +33,16 @@ class MessageController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $ticket = Ticket::where('user_id', $request->user->id)->where('user_id', $request->user->id)->where('id', $id)->first();
+
+        $message = new Message;
+        $message->user_id = $request->user->id;
+        $message->content = $request->input('content');
+
+        $ticket->messages()->save($message);
+
+        return response()->json([
+            'msg' => 'Success!'
+        ]);
     }
 }
